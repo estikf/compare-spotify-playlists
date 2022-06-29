@@ -1,2 +1,7 @@
-songs/
-playlists/
+# media
+src/songs/
+src/playlists/
+.env
+
+# node_modules
+node_modules/

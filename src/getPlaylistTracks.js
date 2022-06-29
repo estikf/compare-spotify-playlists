@@ -1,8 +1,7 @@
 const axios = require("axios").default
 const fs = require("fs")
-const credentials = require("./credentials.json")
 
-const writeTracksToFile = (tracks, fileName) => {
+const writeTracksToFile = (tracks, fileName, ) => {
 
     const path = `./playlists/${fileName}.json`
 
@@ -24,7 +23,7 @@ const writeTracksToFile = (tracks, fileName) => {
     })
 }
 
-const fetchPlaylistTracks = async (limit, offset, playlistId) => {
+const fetchPlaylistTracks = async (limit, offset, playlistId, accessToken) => {
         try {
             let tracks = []
             let url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks?offset=${offset}&limit=${limit}&locale=tr-TR,tr;q=0.9`
@@ -38,7 +37,7 @@ const fetchPlaylistTracks = async (limit, offset, playlistId) => {
 
                 let response = await axios.get(url,{
                     headers:{
-                        "Authorization":`Bearer ${credentials.API_TOKEN}`
+                        "Authorization":`Bearer ${accessToken}`
                     }})
 
                 tracks = [...tracks, ...response.data.items]
@@ -60,8 +59,8 @@ const fetchPlaylistTracks = async (limit, offset, playlistId) => {
     }
 }
 
-module.exports = getPlaylistTracks = (playlist) => {
-    fetchPlaylistTracks(100, 0, playlist.playlistId)
+module.exports = getPlaylistTracks = (playlist, accessToken) => {
+    fetchPlaylistTracks(100, 0, playlist.playlistId, accessToken)
         .then(res => writeTracksToFile(res, playlist.name.split(" ").join("_")))
         .catch(err => console.log(err))
 }

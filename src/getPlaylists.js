@@ -1,19 +1,18 @@
 const axios = require("axios").default
-const credentials = require("./credentials.json")
 
-module.exports = fetchPlaylists = async (limit, offset) => {
-    
+module.exports = fetchPlaylists = async (limit, offset, accessToken) => {
+    console.log(accessToken)
     console.log("Loading playlists...")
 
     try {
         let playlists = []
-        let url = `https://api.spotify.com/v1/me/playlists?offset=${offset}&limit=${limit}`
+        let url = `https://api.spotify.com/v1/users/${process.env.USER_ID}/playlists?offset=${offset}&limit=${limit}`
         
         while(url !== null){
 
             let response = await axios.get(url,{
                 headers:{
-                    "Authorization":`Bearer ${credentials.API_TOKEN}`
+                    "Authorization":`Bearer ${accessToken}`
                 }})
 
             playlists = [...playlists, ...response.data.items]

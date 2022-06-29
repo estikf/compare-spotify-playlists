@@ -27,7 +27,7 @@ const comparePlaylists = async () => {
         files.forEach((item) =>
             JSON.parse(tracks).map((i) => {
                 if(item.split("-")[1].substring(1, 5) === i.trackName.substring(0, 4)){
-                    console.log(i, "Var")
+                    console.log(i, "Exists")
                 }
             })
         );
